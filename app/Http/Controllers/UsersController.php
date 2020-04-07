@@ -51,18 +51,16 @@ class UsersController extends Controller
      */
     public function show($id)
     {
+        $data = [];
+        $message = '';
         try{
-            return
-                response()->json(['data'=> User::findOrFail($id)]);
+            $data = User::findOrFail($id);
+            $success = true;
         } catch (\Exception $e) {
-            return response()-> json (
-                [
-                    'data'=> [],
-                    'message' => $e->getMessage()
-                ]
-            );
-
+            $success = false;
+            $message = $e->getMessage();
         }
+        return compact('data','message','success');
     }
 
     /**
@@ -85,7 +83,20 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = [];
+        $message = '';
+        try{
+            $User = User::findOrFail($id);
+            $postData = $request->except('id','_method');
+            $postData['password'] = bcrypt('test');
+            $success = $User->update($postData);
+            $data = $User;
+
+        } catch (\Exception $e) {
+            $success = false;
+            $message = $e->getMessage();
+        }
+        return compact('data','message','success');
     }
 
     /**
