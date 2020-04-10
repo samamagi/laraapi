@@ -26,8 +26,8 @@ $factory->define(User::class, function (Faker $faker) {
         'remember_token' => Str::random(10),
         'lastname' => $faker->lastname,
         'phone' => $faker->e164PhoneNumber,
-        'age' => $faker->randomDigitNotNull,
+        'age' => $faker->numberBetween(18,120),
         'province' => $faker->city,
-        'fiscalcode' => $faker->randomLetter,
+        'fiscalcode' => $faker->text(16)
     ];
 });

@@ -13,6 +13,7 @@ return [
     |
     */
 
+    'faker-local' => 'it_IT',
     'name' => env('APP_NAME', 'Laravel'),
 
     /*
