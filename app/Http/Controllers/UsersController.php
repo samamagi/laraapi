@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class UsersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -45,7 +49,7 @@ class UsersController extends Controller
         try{
             $User = new User();
             $postData = $request->except('id','_method');
-            $postData['password'] = bcrypt('test');
+            $postData['password'] = bcrypt('dedede');
             $User->fill($postData);
             $success = $User->save();
             $data = $User;
@@ -102,7 +106,7 @@ class UsersController extends Controller
         try{
             $User = User::findOrFail($id);
             $postData = $request->except('id','_method');
-            $postData['password'] = bcrypt('test');
+            $postData['password'] = bcrypt('dedede');
             $success = $User->update($postData);
             $data = $User;
 
