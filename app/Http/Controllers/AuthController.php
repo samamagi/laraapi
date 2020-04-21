@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -15,7 +16,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login','signup']]);
     }
 
     /**
@@ -28,7 +29,7 @@ class AuthController extends Controller
         $credentials = request(['email', 'password']);
 
         if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Unauthorized LogIn'], 401);
         }
 
         return $this->respondWithToken($token);
@@ -83,5 +84,20 @@ class AuthController extends Controller
             'email' => auth()->user()->email
         ]);
     }
+    public function signup()
+    {
+        $credentials = request(['name', 'email', 'password']);
 
+        $credentials['password'] = bcrypt($credentials['password']); // \Hash::make($credentials['password']);
+        $res = User::create($credentials);
+
+        if (!$res){
+            return response()->json(['error' => 'Error Creating User'], 500);
+        }
+        if (! $token = auth()->login($res)) {
+            return response()->json(['error' => 'Unauthorized SignUp'], 401);
+        }
+
+        return $this->respondWithToken($token);
+    }
 }

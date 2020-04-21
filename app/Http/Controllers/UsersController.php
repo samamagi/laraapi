@@ -50,6 +50,7 @@ class UsersController extends Controller
             $User = new User();
             $postData = $request->except('id','_method');
             $postData['password'] = bcrypt('dedede');
+            // $postData['fiscalcode'] = 'DEDEDEDEDEDEDEDE';
             $User->fill($postData);
             $success = $User->save();
             $data = $User;

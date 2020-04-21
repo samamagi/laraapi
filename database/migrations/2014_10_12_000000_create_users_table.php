@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
             $table->string('province', 32)->nullable();
             $table->smallInteger('age', false, true)->nullable();
             $table->string('fiscalcode', 16)->uuid;
+            //$table->string('fiscalcode', 16)->nullable();
         });
     }
 
